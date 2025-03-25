@@ -2,20 +2,9 @@
 
 ********************************************************************************
 
-*voglio unire le diverse wave del SOEP
+*Merging the different SOEP waves
 
-
-global mydir "C:\Users\utente\OneDrive\Desktop\Research Design"
-cd "$mydir"
-
-global wdata "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata"
-global odata "C:\Users\utente\OneDrive\Desktop\Research Design\Odata"
-global dofile "C:\Users\utente\OneDrive\Desktop\Research Design\Dofile"
-
-*per controllare i dataset nella cartella
-dir
-
-******************** Cleaning the dataset
+******************** Choosing the variables
 *2011
 use "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata\bbp.dta", clear 
 label language EN
@@ -33,8 +22,9 @@ bbp13202 ///
 bbp28_isco88 ///
 pid ///
 syear //
+*THE LIST IS NOT COMPLETE. WE STILL NEED VARIABLES ABOUT REGIONS, UNEMPLOYMENT AND SIMILAR
 
-save "C:\Users\utente\OneDrive\Desktop\temp", replace
+
 save "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata\bbp.dta", replace
 
 *2012
@@ -54,33 +44,41 @@ bcp142 ///
 pid ///
 syear //
 
-save "C:\Users\utente\OneDrive\Desktop\temp1", replace
 save "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata\bcp.dta", replace
 
-*merge
-use "C:\Users\utente\OneDrive\Desktop\temp", clear
-use "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata\bbp.dta", clear
+*REPEAT THE PROCEDURE FOR ALL THE WAVES
+*********************************************************************
+*Merge
 
-merge 1:1 pid using "C:\Users\utente\OneDrive\Desktop\temp1.dta", keepusing(syear pid bcp7201 bcp12701 bcp12708 bcp12709 bcp12710 bcp12711 bcp12713 bcp12801 bcp12803 bcp142)
-
-*ci sono un migliaio di casi di meno tra i due dataset. sarebbe meglio usare come master il dataset con più casi di tutti?
-
-
-
-**** per vedere se le variabili sono comuni tra dataset Se merge == 3 è basso, significa che le osservazioni combaciano poco → serve armonizzazione.
-use wave1.dta, clear
-merge 1:1 id using wave2.dta, keepusing(var1 var2 var3) gen(_merge)
-
-*bisogna cercare le variabili da tenere e non portarsi dietro tutto
-
-
-
-
-
+/*To merge we need to open a "Master" dataset. According to what I read in the SOEP website 
+(https://companion.soep.de/Working%20with%20SOEP%20Data/How%20to%20Merge%20SOEP%20Data.html), and in the
+SOEPtutorials: Data Structure and Naming Conventions, yt video
+ we should choose PPATHL. */ 
 
 use "C:\Users\utente\OneDrive\Desktop\Research Design\Odata\Files (7) from SOEP - Antonia Meier\SOEP-CORE.v39eu_Stata\Stata_DE\soepdata\ppath.dta"
 
-merge 1:1 pid using "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata\bcp.dta"
+*The command to merge consists in 4 parts:
+*1 specify the kind of merge we want (e.g. 1:1)
+*2 what are the key variables (identifiers)
+*3 what dataset we want to add to the master
+*4 (optional) which variables we want to take from the new dataset
+
+merge 1:1 pid using "C:\Users\utente\OneDrive\Desktop\temp1.dta", keepusing(syear pid bcp7201 bcp12701 bcp12708 bcp12709 bcp12710 bcp12711 bcp12713 bcp12801 bcp12803 bcp142)
+
+*I saw from many sources that as key variables we should use both pid and syear (survey year). 
+*However in PPATHL the variable doesn't exists. What to do?
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
