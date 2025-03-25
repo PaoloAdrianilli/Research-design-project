@@ -63,7 +63,7 @@ use "C:\Users\utente\OneDrive\Desktop\Research Design\Odata\Files (7) from SOEP 
 *3 what dataset we want to add to the master
 *4 (optional) which variables we want to take from the new dataset
 
-merge 1:1 pid using "C:\Users\utente\OneDrive\Desktop\temp1.dta", keepusing(syear pid bcp7201 bcp12701 bcp12708 bcp12709 bcp12710 bcp12711 bcp12713 bcp12801 bcp12803 bcp142)
+merge 1:1 pid using "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata\bbp.dta", keepusing(syear pid bcp7201 bcp12701 bcp12708 bcp12709 bcp12710 bcp12711 bcp12713 bcp12801 bcp12803 bcp142)
 
 *I saw from many sources that as key variables we should use both pid and syear (survey year). 
 *However in PPATHL the variable doesn't exists. What to do?
