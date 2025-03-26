@@ -62,7 +62,9 @@ save "$Wdata\bcp.dta", replace
 
 *2013 
 
-use "$Wdata\bdp.dta"
+use "$Wdata\bdp.dta", clear
+label language EN
+
 keep bdp13311 /// Worried About Immigration To Germany
 bdp9001 /// General-Education School Degree
 bdp13314 /// Worried About Job Security
@@ -80,8 +82,9 @@ pid /// Never Changing Person ID
 syear // Survey Year
 
 save "$Wdata\bdp.dta"
-*2014
-use "$Wdata\bep.dta"
+use "$Wdata\bep.dta", clear
+label language EN
+
 keep bep12301 /// Worried About Economic Development
 bep12308 /// worried about crime in germany
 bep12309 /// Worried About Immigration To Germany
@@ -100,7 +103,9 @@ syear // Survey Year
 save "$Wdata\bep.dta"
 
 *2015
-use "$Wdata\bfp.dta"
+use "$Wdata\bfp.dta", clear 
+label language EN
+
 keep bfp14601 /// Worried About Economic Development
 bfp14608 /// worried about crime in germany
 bfp14610 /// Worried About Immigration To Germany
@@ -116,7 +121,9 @@ pid // Never Changing Person ID
 save "$Wdata\bfp.dta"
 
 *2016
-use "$Wdata\bgp.dta"
+use "$Wdata\bgp.dta", clear
+label language EN
+
 keep bgp14801 /// Worried About Economic Development
 bgp14808 /// worried about crime in germany
 bgp14810 /// Worried About Immigration To Germany
@@ -132,7 +139,9 @@ pid // Never Changing Person ID
 save "$Wdata\bgp.dta"
 
 *2017
-use "$Wdata\bhp.dta"
+use "$Wdata\bhp.dta",
+label language EN
+
 keep bhp_186_01 /// Worried About Economic Development
 bhp_186_11 /// Worried About Immigration to Germany
 bhp_186_13 /// Worried About Job Security
@@ -149,7 +158,9 @@ save "$Wdata\bhp.dta"
 
 *2018
 
-use "$Wdata\bip.dta"
+use "$Wdata\bip.dta", clear
+label language EN
+
 keep bip_170_01 /// Worried About Economic Development
 bip_170_11 /// Worried About Immigration to Germany
 bip_170_13 /// Worried About Job Security
@@ -165,7 +176,8 @@ pid // Never Changing Person ID
 save "$Wdata\bip.dta"
 
 *2019
-use "$Wdata\bjp.dta"
+use "$Wdata\bjp.dta", clear
+
 keep bjp_174_12 ///
 bjp_174_08 ///
 bjp_174_11 ///
