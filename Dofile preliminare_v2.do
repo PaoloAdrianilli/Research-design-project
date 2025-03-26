@@ -5,7 +5,7 @@
 global mydir "C:\Users\utente\OneDrive\Desktop\Research Design"
 cd "$mydir"
 
-global wdata "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata"
+global Wdata "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata"
 global odata "C:\Users\utente\OneDrive\Desktop\Research Design\Odata"
 global dofile "C:\Users\utente\OneDrive\Desktop\Research Design\Dofile"
 
@@ -17,7 +17,7 @@ dir
 
 ******************** Choosing the variables
 *2011
-use "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata\bbp.dta", clear 
+use "$Wdata\bbp.dta", clear 
 label language EN
 keep bbp13101 ///
 bbp8401 ///
@@ -38,10 +38,10 @@ syear //
 *THE LIST IS NOT COMPLETE. WE STILL NEED VARIABLES ABOUT REGIONS, UNEMPLOYMENT AND SIMILAR
 
 
-save "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata\bbp.dta", replace
+save "$Wdata\bbp.dta", replace
 
 *2012
-use "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata\bcp.dta", clear 
+use "$Wdata\bcp.dta", clear 
 label language EN
 
 keep bcp12701 ///
@@ -57,11 +57,11 @@ bcp142 ///
 pid ///
 syear //
 
-save "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata\bcp.dta", replace
+save "$Wdata\bcp.dta", replace
 
 *2013 
 
-use
+use "$Wdata\bdp.dta"
 keep bdp13311 ///
 bdp9001 ///
 bdp13314 ///
@@ -77,9 +77,9 @@ bdp146 ///
 pid ///
 syear //
 
-save
+save "$Wdata\bdp.dta"
 *2014
-use 
+use "$Wdata\bep.dta"
 keep bep12301 ///
 bep12308 /// 
 bep12309 ///
@@ -94,10 +94,10 @@ bep132 ///
 pid ///
 syear //
 
-save
+save "$Wdata\bep.dta"
 
 *2015
-use
+use "$Wdata\bfp.dta"
 keep bfp14601 ///
 bfp14608 ///
 bfp14610 ///
@@ -109,10 +109,10 @@ bfp13 ///
 syear ///
 pid //
 
-save
+save "$Wdata\bfp.dta"
 
 *2016
-use 
+use "$Wdata\bgp.dta"
 keep bgp14801 ///
 bgp14808 /// 
 bgp14810 ///
@@ -124,10 +124,10 @@ bgp11a ///
 syear ///
 pid //
 
-save
+save "$Wdata\bgp.dta"
 
 *2017
-use
+use "$Wdata\bhp.dta"
 keep bhp_186_01 ///
 bhp_186_11 ///
 bhp_186_13 ///
@@ -139,11 +139,11 @@ bhp_122_08 ///
 syear ///
 pid //
 
-save
+save "$Wdata\bhp.dta"
 
 *2018
 
-use
+use "$Wdata\bip.dta"
 keep bip_170_01 ///
 bip_170_11 ///
 bip_170_13 ///
@@ -155,6 +155,21 @@ bip_19 ///
 syear ///
 pid //
 
+save "$Wdata\bip.dta"
+
+*2019
+use "$Wdata\bjp.dta"
+keep bjp_174_12 ///
+bjp_174_08 ///
+bjp_174_11 ///
+bjp_174_13 ///
+bjp_174_01 ///
+bjp_12_02 ///
+bjp_08 /// 
+bjp_07 ///
+syear ///
+pid //
+save "$Wdata\bjp.dta"
 *REPEAT THE PROCEDURE FOR ALL THE WAVES
 *********************************************************************
 *Merge
@@ -164,7 +179,7 @@ pid //
 SOEPtutorials: Data Structure and Naming Conventions, yt video
  we should choose PPATHL. */ 
 
-use "C:\Users\utente\OneDrive\Desktop\Research Design\Odata\Files (7) from SOEP - Antonia Meier\SOEP-CORE.v39eu_Stata\Stata_DE\soepdata\ppath.dta"
+use "$Wdata\ppathl.dta"
 
 *The command to merge consists in 4 parts:
 *1 specify the kind of merge we want (e.g. 1:1)
@@ -172,19 +187,18 @@ use "C:\Users\utente\OneDrive\Desktop\Research Design\Odata\Files (7) from SOEP 
 *3 what dataset we want to add to the master
 *4 (optional) which variables we want to take from the new dataset
 
-merge 1:1 pid using "$wdata\bbp.dta"
-merge 1:1 pid using "$wdata\bcp.dta"
-merge 1:1 pid using "$wdata\bdp.dta"
-merge 1:1 pid using "$wdata\bep.dta"
-merge 1:1 pid using "$wdata\bfp.dta"
-merge 1:1 pid using "$wdata\bgp.dta"
-merge 1:1 pid using "$wdata\bhp.dta"
-merge 1:1 pid using "$wdata\bip.dta"
+merge 1:1 pid using "$Wdata\bbp.dta"
+merge 1:1 pid using "$Wdata\bcp.dta"
+merge 1:1 pid using "$Wdata\bdp.dta"
+merge 1:1 pid using "$Wdata\bep.dta"
+merge 1:1 pid using "$Wdata\bfp.dta"
+merge 1:1 pid using "$Wdata\bgp.dta"
+merge 1:1 pid using "$Wdata\bhp.dta"
+merge 1:1 pid using "$Wdata\bip.dta"
 
 
 *I saw from many sources that as key variables we should use both pid and syear (survey year). 
 *However in PPATHL the variable doesn't exists. What to do?
-
 
 
 
