@@ -44,7 +44,7 @@ save "$Wdata\bbp.dta", replace
 use "$Wdata\bcp.dta", clear 
 label language EN
 
-keep bcp12701 ///
+keep bcp12701 /// 
 bcp12708 ///
 bcp12709 ///
 bcp12710 ///
@@ -54,6 +54,7 @@ bcp7201 ///
 bcp12803 ///
 bcp12801 ///
 bcp142 ///
+bcp28_isco88 ///
 pid ///
 syear //
 
@@ -74,6 +75,7 @@ bdp13401 ///
 bdp12 ///
 bdp13 ///
 bdp146 ///
+bdp38_isco88 ///
 pid ///
 syear //
 
@@ -91,6 +93,7 @@ bep12601 ///
 bep06 ///
 bep07 /// 
 bep132 ///
+bep28_isco88 ///
 pid ///
 syear //
 
@@ -106,6 +109,7 @@ bfp14612 ///
 bfp2102 ///
 bfp12 ///
 bfp13 ///
+bfp52_isco88 ///
 syear ///
 pid //
 
@@ -121,6 +125,7 @@ bgp14812 ///
 bgp10 ///
 bgp2102 ///
 bgp11a ///
+bgp2107_isco88 ///
 syear ///
 pid //
 
@@ -136,6 +141,7 @@ bhp_186_12 ///  this one is xenofobia
 bhp_22_02 ///
 bhp_11 ///
 bhp_122_08 ///
+bhp_52_isco88 ///
 syear ///
 pid //
 
@@ -152,6 +158,7 @@ bip_29_02 ///
 bip_170_12 ///
 bip_170_08 ///
 bip_19 ///
+bip_61_isco08 ///
 syear ///
 pid //
 
@@ -167,6 +174,7 @@ bjp_174_01 ///
 bjp_12_02 ///
 bjp_08 /// 
 bjp_07 ///
+bjp_46_isco08 ///
 syear ///
 pid //
 save "$Wdata\bjp.dta"
@@ -199,6 +207,7 @@ merge 1:1 pid using "$Wdata\bip.dta"
 
 *I saw from many sources that as key variables we should use both pid and syear (survey year). 
 *However in PPATHL the variable doesn't exists. What to do?
+
 
 
 
