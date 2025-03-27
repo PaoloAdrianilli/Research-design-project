@@ -35,9 +35,6 @@ bbp0501 /// Maternity, Paternity Leave
 bbp9109 /// Maternity Leave Jan-Dec Prev. Yr
 pid /// Never Changing Person ID
 syear // survey year
-*THE LIST IS NOT COMPLETE. WE STILL NEED VARIABLES ABOUT REGIONS, UNEMPLOYMENT AND SIMILAR
-
-
 save "$Wdata\bbp.dta", replace
 
 *2012
@@ -61,7 +58,6 @@ syear // Survey Year
 save "$Wdata\bcp.dta", replace
 
 *2013 
-
 use "$Wdata\bdp.dta", clear
 label language EN
 
@@ -83,6 +79,7 @@ syear // Survey Year
 
 save "$Wdata\bdp.dta", replace
 
+*2014
 use "$Wdata\bep.dta", clear
 label language EN
 
@@ -101,7 +98,7 @@ bep28_isco88 /// Current occupation (ISCO-88 COM)
 pid /// Never Changing Person ID
 syear // Survey Year
 
-save "$Wdata\bep.dta"
+save "$Wdata\bep.dta", replace
 
 *2015
 use "$Wdata\bfp.dta", clear 
@@ -119,7 +116,7 @@ bfp52_isco88 /// Current occupation (ISCO-88 COM)
 syear /// Survey Year
 pid // Never Changing Person ID
 
-save "$Wdata\bfp.dta"
+save "$Wdata\bfp.dta", replace
 
 *2016
 use "$Wdata\bgp.dta", clear
@@ -137,10 +134,10 @@ bgp2107_isco88 /// Vocation (ISCO-88 COM)
 syear /// Survey Year
 pid // Never Changing Person ID
 
-save "$Wdata\bgp.dta"
+save "$Wdata\bgp.dta", replace
 
 *2017
-use "$Wdata\bhp.dta",
+use "$Wdata\bhp.dta", clear
 label language EN
 
 keep bhp_186_01 /// Worried About Economic Development
@@ -155,10 +152,9 @@ bhp_52_isco88 /// Current occupation (ISCO-88 COM)
 syear /// Survey Year
 pid // Never Changing Person ID
 
-save "$Wdata\bhp.dta"
+save "$Wdata\bhp.dta", replace
 
 *2018
-
 use "$Wdata\bip.dta", clear
 label language EN
 
@@ -174,7 +170,7 @@ bip_61_isco08 /// Current occupation (ISCO-08)
 syear /// Survey Year
 pid // Never Changing Person ID
 
-save "$Wdata\bip.dta"
+save "$Wdata\bip.dta", replace
 
 *2019
 use "$Wdata\bjp.dta", clear
@@ -190,10 +186,10 @@ bjp_07 ///
 bjp_46_isco08 ///
 syear ///
 pid //
-save "$Wdata\bjp.dta"
-
+save "$Wdata\bjp.dta", replace
+*End of waves
 *Dataset with jobs/// biojob
-use "$Wdata\biojob.dta"
+use "$Wdata\biojob.dta", clear
 keep cid ///
 pid ///
 nojob ///
@@ -204,11 +200,10 @@ siops08 ///
 egp08 ///
 mps08 ///
 yearlast //
-save "$Wdata\biojob.dta"
+save "$Wdata\biojob.dta", replace
 
-*Dataset with info on parents /// bioparen
-
-use "$Wdata\bioparen.dta"
+/*Dataset with info on parents /// bioparen*/
+use "$Wdata\bioparen.dta", clear
 keep pid ///
 cid ///
 fnr ///
@@ -226,11 +221,10 @@ megp08 ///
 misco08 ///
 fisco08 //
 
-save "$Wdata\bioparen.dta"
+save "$Wdata\bioparen.dta", replace
 
-*Dataset with regional info /// regionl
-
-use "$Wdata\regionl.dta"
+/*Dataset with regional info /// regionl*/
+use "$Wdata\regionl.dta", clear
 keep cid ///
 hid ///
 syear ///
@@ -242,10 +236,10 @@ kr_emprate ///
 kr_popdens ///
 kr_area ///
 kr_population //
-save "$Wdata\regionl.dta"
+save "$Wdata\regionl.dta", replace
 
-*Dataset with edu info
-use "$Wdata\bioedu.dta"
+/*Dataset with edu info*/
+use "$Wdata\bioedu.dta", clear
 keep cid ///
 pid ///
 bex4cert ///
@@ -259,7 +253,7 @@ save "$Wdata\bioedu.dta", replace
 SOEPtutorials: Data Structure and Naming Conventions, yt video
  we should choose PPATHL. */ 
 
-use "$Wdata\ppathl.dta"
+use "$Wdata\ppathl.dta", clear
 
 *The command to merge consists in 4 parts:
 *1 specify the kind of merge we want (e.g. 1:1)
@@ -275,10 +269,15 @@ merge 1:1 pid using "$Wdata\bfp.dta"
 merge 1:1 pid using "$Wdata\bgp.dta"
 merge 1:1 pid using "$Wdata\bhp.dta"
 merge 1:1 pid using "$Wdata\bip.dta"
+merge 1:1 pid using "$Wdata\bjp.dta" /// 2019
+merge 1:1 pid using "$Wdata\biojob.dta" /// not sure if it is 1:1 
+merge 1:1 pid using "$Wdata\bioparen.dta" /// not sure if it is 1:1 
+merge 1:1 pid using "$Wdata\regionl.dta" /// not sure if it is 1:1 
+merge 1:1 pid using "$Wdata\bioedu.dta" /// not sure if it is 1:1 
 
-
+save "$Wdata\mergeddataset"
 *I saw from many sources that as key variables we should use both pid and syear (survey year). 
-*However in PPATHL the variable doesn't exists. What to do?
+*However in PPATHL the variable doesn't exists. What about the other ones?
 
 
 
