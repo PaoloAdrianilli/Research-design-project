@@ -206,19 +206,24 @@ label variable bip_18v2 "Paid Work in the last 7 days"
 gen bip_19v2 = bip_19
 label values bip_19v2 palv
 label variable bip_19v2 "maternity, paternity leave"
+gen bip_170_08v2 = bip_170_08
+label variable bip_170_08v2 "concern crime in Germany"
+lab def crg -5 "not included in this version of the questionnaire" ///
+ -1 "no answer" 1 "very concern" 2 "some worries" 3 "no worries"
+lab values bip_170_08v2 crg
 
 keep bip_170_01 /// Worried About Economic Development
 bip_170_11 /// Worried About Immigration to Germany
 bip_170_13 /// Worried About Job Security
 bip_18v2 ///
 bip_19v2 ///
+bip_170_08v2 ///
 bip_29_02 /// General-Education School Degree
 bip_170_12 /// Concern hostility towards foreigners or minorities in Germany
 bip_61_isco08 /// Current occupation (ISCO-08)
 syear /// Survey Year
 pid // Never Changing Person ID
 
-*bip_170_08 /// Concern crime in Germany
 save "$Wdata\bip.dta", replace
 
 *2019
@@ -254,6 +259,11 @@ save "$Wdata\biojob.dta", replace
 
 /*Dataset with info on parents /// bioparen*/
 use "$Wdata\bioparen.dta", clear
+gen misco08v2 = misco08
+label var misco08v2 "mother isco88 - new generation"
+label values misco08v2 misco08
+tab1 misco08v2 misco08
+*misco08 non va ancora bene. tabbatelo
 keep pid ///
 cid ///
 fnr ///
