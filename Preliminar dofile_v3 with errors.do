@@ -65,10 +65,10 @@ gen bdp12v2 = bdp12
 label def yesno 1 "yes" 2 "no" 
 label values bdp12v2 yesno
 label variable bdp12v2 "Paid Work in the last 7 days"
-gen bdp13v2 = bdp13
+gen bdp13121212 = bdp13
 label def palv -1 "no answer" 1 "yes, maternity leave" 2 "yes, parental leave" 3 "no"
-label values bdp13v2 palv
-label variable bdp13v2 "maternity, paternity leave"
+label values bdp13121212 palv
+label variable bdp13121212 "maternity, paternity leave"
 
 keep bdp13311 /// Worried About Immigration To Germany
 bdp9001 /// General-Education School Degree
@@ -78,14 +78,13 @@ bdp13312 /// Worried About Hostility To Foreigners
 bdp13301 /// Worried About Economic Development
 bdp13309 /// Worried About global terrorism
 bdp12v2 /// Paid Work in the last 7 days
-bdp13v2 /// maternity, paternity leave
 bdp13403 /// Year Of Birth
 bdp13401 /// Gender
 bdp146 /// Both Parents Born In Germany
 bdp38_isco88 /// Current occupation (ISCO-88 COM)
 pid /// Never Changing Person ID
 syear // Survey Year
-
+* bdp13121212 /// maternity, paternity leave !!! still not working
 save "$Wdata\bdp.dta", replace
 
 *2014
@@ -259,11 +258,6 @@ save "$Wdata\biojob.dta", replace
 
 /*Dataset with info on parents /// bioparen*/
 use "$Wdata\bioparen.dta", clear
-gen misco08v2 = misco08
-label var misco08v2 "mother isco88 - new generation"
-label values misco08v2 misco08
-tab1 misco08v2 misco08
-*misco08 non va ancora bene. tabbatelo
 keep pid ///
 cid ///
 fnr ///
@@ -280,6 +274,7 @@ fegp08 ///
 fisco08 //
 *megp08 /// (missing)
 *misco08 ///
+*this two variables contains mostly missing. I'm not sure if it is the case to add em
 save "$Wdata\bioparen.dta", replace
 
 /*Dataset with regional info /// regionl*/
@@ -299,12 +294,17 @@ save "$Wdata\regionl.dta", replace
 
 /*Dataset with edu info*/
 use "$Wdata\bioedu.dta", clear
+gen bex4certv2 = bex4cert 
+label var bex4cert "highest school leaving certificate ever obtained"
+lab def hedu -2 "does not apply" -1 "no answer" 1 "secondary school degree" 2 "intermediate school degree" 3 "technical school degree" 4 "upper secondary degree" 5 "other school degree" 6 "no school degree (yet), dropout"
+label values bex4cert hedu
+
 keep cid ///
 pid ///
+bex4cert ///
 bex4cert2 //
 
 save "$Wdata\bioedu.dta", replace
-*bex4cert /// (missing)
 *********************************************************************
 *Merge
 
