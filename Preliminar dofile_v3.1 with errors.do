@@ -1,5 +1,5 @@
 *Research design
-
+*Update on github following this rule: significant changes: new do_vn | minor changes overwrite the existent one
 ********************************************************************************
 
 global mydir "C:\Users\utente\OneDrive\Desktop\Research Design"
