@@ -36,7 +36,8 @@ bbp28_isco88 /// Current occupation (ISCO-88 COM)
 bbp0501 /// Maternity, Paternity Leave
 bbp9109 /// Maternity Leave Jan-Dec Prev. Yr
 pid /// Never Changing Person ID
-syear // survey year
+syear /// survey year
+cid //
 save "$Wdata\bbp.dta", replace
 
 *2012
@@ -55,8 +56,8 @@ bcp12801 /// Sex
 bcp142 /// Both Parents Born In Germany
 bcp28_isco88 /// Current occupation (ISCO-88 COM)
 pid /// Never Changing Person ID
-syear // Survey Year
-
+syear /// Survey Year
+cid //
 save "$Wdata\bcp.dta", replace
 
 *2013 
@@ -72,7 +73,7 @@ label def palv -1 "no answer" 1 "yes, maternity leave" 2 "yes, parental leave" 3
 label values bdp13121212 palv
 label variable bdp13121212 "maternity, paternity leave"
 
-keep bdp13311 bdp9001 bdp13314 bdp13310 bdp13301 bdp13401 bdp38_isco88 syear bdp13121212 bdp13403 pid bdp13312 bdp13309 bdp12v2 bdp146
+keep bdp13311 bdp9001 bdp13314 bdp13310 bdp13301 bdp13401 bdp38_isco88 syear bdp13121212 bdp13403 pid bdp13312 bdp13309 bdp12v2 bdp146 cid
 
 *keep bdp13311 /// Worried About Immigration To Germany
 bdp9001 /// General-Education School Degree
@@ -116,7 +117,8 @@ bep12601 /// Gender
 bep132 /// Both Parents Born In Germany
 bep28_isco88 /// Current occupation (ISCO-88 COM)
 pid /// Never Changing Person ID
-syear // Survey Year
+syear /// Survey Year
+cid //
 
 save "$Wdata\bep.dta", replace
 
@@ -145,7 +147,8 @@ bfp14611 /// Worried About Hostility To Foreigners
 bfp14612 /// Worried About Job Security
 bfp52_isco88 /// Current occupation (ISCO-88 COM)
 syear /// Survey Year
-pid // Never Changing Person ID
+pid /// Never Changing Person ID
+cid //
 
 save "$Wdata\bfp.dta", replace
 
@@ -173,7 +176,8 @@ bgp14812 /// Worried About Job Security
 bgp2102v2 ///
 bgp2107_isco88 /// Vocation (ISCO-88 COM)
 syear /// Survey Year
-pid // Never Changing Person ID
+pid /// Never Changing Person ID
+cid //
 
 save "$Wdata\bgp.dta", replace
 
@@ -196,7 +200,8 @@ bhp_186_12 /// Worried Xenophobia in Germany
 bhp_22_02 /// General-Education School Degree
 bhp_52_isco88 /// Current occupation (ISCO-88 COM)
 syear /// Survey Year
-pid // Never Changing Person ID
+pid /// Never Changing Person ID
+cid //
 *bhp_122_08v2
 save "$Wdata\bhp.dta", replace
 
@@ -225,14 +230,14 @@ bip_29_02 /// General-Education School Degree
 bip_170_12 /// Concern hostility towards foreigners or minorities in Germany
 bip_61_isco08 /// Current occupation (ISCO-08)
 syear /// Survey Year
-pid // Never Changing Person ID
-
+pid /// Never Changing Person ID
+cid //
 save "$Wdata\bip.dta", replace
 
 *2019
 use "$Wdata\bjp.dta", clear
 
-keep bjp_174_12 bjp_174_08 bjp_174_11 bjp_174_13 bjp_174_01 bjp_07 bjp_46_isco08 pid bjp_12_02 bjp_08
+keep bjp_174_12 bjp_174_08 bjp_174_11 bjp_174_13 bjp_174_01 bjp_07 bjp_46_isco08 pid bjp_12_02 bjp_08 cid
 /*keep bjp_174_12 ///
 bjp_174_08 ///
 bjp_174_11 ///
@@ -258,7 +263,8 @@ stba10 ///
 siops08 ///
 egp08 ///
 mps08 ///
-yearlast //
+yearlast ///
+cid //
 save "$Wdata\biojob.dta", replace
 
 /*Dataset with info on parents /// bioparen*/
@@ -278,8 +284,8 @@ msiops08 ///
 fegp08 ///
 fisco08 ///
 megp08 ///
-misco08 //
-
+misco08 ///
+cid //
 *megp08 /// (missing)
 *misco08 ///
 *this two variables contains mostly missing. I'm not sure if it is the case to add em
@@ -345,13 +351,16 @@ merge 1:1 pid syear using "$Wdata\bhp.dta"
 drop _merge
 merge 1:1 pid syear using "$Wdata\bip.dta"
 drop _merge
+merge m:1 pid cid using "$Wdata\biojob.dta" 
+drop _merge
+merge m:1 pid cid using "$Wdata\bioparen.dta"
+drop _merge
+merge m:1 pid cid using "$Wdata\bioedu.dta"
+drop _merge
 /*
 The following ones are still not merged properly, I dunnow why
-merge 1:1 pid syear using "$Wdata\biojob.dta" /// not sure if it is 1:1 
+merge m:1 syear cid using "$Wdata\regionl.dta"
 drop _merge
-merge 1:1 pid syear using  "$Wdata\bioparen.dta" /// not sure if it is 1:1 
-merge 1:1 pid syear using "$Wdata\regionl.dta" /// not sure if it is 1:1 
-merge 1:1 pid syear using "$Wdata\bioedu.dta" /// not sure if it is 1:1 
 */
 
 *2019 not merged
@@ -360,8 +369,4 @@ drop _merge
 *I saw from many sources that as key variables we should use both pid and syear (survey year). 
 *However in PPATHL the variable doesn't exists. What about the other ones?
 
-save "$Wdata\mergeddataset"
-
-
-
-.
+save "$Wdata\mergeddataset", replace
