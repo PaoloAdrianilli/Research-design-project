@@ -370,3 +370,10 @@ drop _merge
 *However in PPATHL the variable doesn't exists. What about the other ones?
 
 save "$Wdata\mergeddataset", replace
+
+*we are trying to append the dataset regionl as it does not have a pid so we are thinking that 
+we need to append, because we are adding observations.
+
+use "$Wdata\mergeddataset", clear
+append using "$Wdata/regionl.dta"
+save "$Wdata\mergeddataset", replace
