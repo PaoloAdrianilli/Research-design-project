@@ -357,11 +357,6 @@ merge m:1 pid cid using "$Wdata\bioparen.dta"
 drop _merge
 merge m:1 pid cid using "$Wdata\bioedu.dta"
 drop _merge
-/*
-The following ones are still not merged properly, I dunnow why
-merge m:1 syear cid using "$Wdata\regionl.dta"
-drop _merge
-*/
 
 *2019 not merged
 *merge 1:1 pid syear using "$Wdata\bjp.dta" /// 2019
