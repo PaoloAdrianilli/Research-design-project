@@ -53,3 +53,64 @@ foreach y in 2012 2013 2014 2015 2016 2017 2018 {
 
 tab syear whosmi
 drop whosmi_2012 whosmi_2013 whosmi_2014 whosmi_2015 whosmi_2016 whosmi_2017 whosmi_2018
+
+*recode of Worried About Job Security
+foreach oldname in bcp12713 bdp13314 bep12311 bfp14612 bgp14812 bhp_186_13 bip_170_13 {
+	local year = ///
+		cond("`oldname'" == "bcp12713", 2012, ///
+		cond("`oldname'" == "bdp13314", 2013, ///
+		cond("`oldname'" == "bep12311", 2014, ///
+		cond("`oldname'" == "bfp14612",  2015, ///
+        cond("`oldname'" == "bgp14812",   2016, ///
+		cond("`oldname'" == "bhp_186_13", 2017, ///
+		cond("`oldname'" == "bip_170_13", 2018, .)))))))
+	rename `oldname' wjose_`year'
+}
+
+gen wjose = .
+foreach y in 2012 2013 2014 2015 2016 2017 2018 {
+	replace wjose = wjose_`y' if syear == `y'
+}
+
+tab syear wjose
+drop wjose_2012 wjose_2013 wjose_2014 wjose_2015 wjose_2016 wjose_2017 wjose_2018
+
+*recode of worried about crime in Germany 
+foreach oldname in bcp12709 bdp13310 bep12308 bfp14608 bgp14808 bhp_186_08 bip_170_08v2 {
+	local year = ///
+		cond("`oldname'" == "bcp12709", 2012, ///
+		cond("`oldname'" == "bdp13310", 2013, ///
+		cond("`oldname'" == "bep12308", 2014, ///
+		cond("`oldname'" == "bfp14608",  2015, ///
+        cond("`oldname'" == "bgp14808",   2016, ///
+		cond("`oldname'" == "bhp_186_08", 2017, ///
+		cond("`oldname'" == "bip_170_08v2", 2018, .)))))))	
+	rename `oldname' wocri_`year'
+}
+
+gen wocri = .
+foreach y in 2012 2013 2014 2015 2016 2017 2018 {
+	replace wocri = wocri_`y' if syear == `y'
+}
+
+drop wocri_2012 wocri_2013 wocri_2014 wocri_2015 wocri_2016 wocri_2017 wocri_2018
+
+*recode of worried about economic development
+foreach oldname in bcp12701 bdp13301 bep12301 bfp14601 bgp14801 bhp_186_01 bip_170_01 {
+	local year = ///
+		cond("`oldname'" == "bcp12701", 2012, ///
+		cond("`oldname'" == "bdp13301", 2013, ///
+		cond("`oldname'" == "bep12301", 2014, ///
+		cond("`oldname'" == "bfp14601", 2015, ///
+		cond("`oldname'" == "bgp14801", 2016, ///
+		cond("`oldname'" == "bhp_186_01", 2017, ///
+		cond("`oldname'" == "bip_170_01", 2018, .)))))))
+	rename `oldname' woeco_`year'
+}
+
+gen woeco = .
+foreach y in 2012 2013 2014 2015 2016 2017 2018 {
+	replace woeco = woeco_`y' if syear == `y'
+}
+
+drop woeco_2012 woeco_2013 woeco_2014 woeco_2015 woeco_2016 woeco_2017 woeco_2018
