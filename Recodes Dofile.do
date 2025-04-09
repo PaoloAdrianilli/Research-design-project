@@ -3,8 +3,11 @@ use "$Wdata\mergeddataset.dta"
 label language EN
 *to tell at STATA that this is a panel dataset
 xtset pid syear
-*to check for duplicates
-duplicates report pid
+*To check for duplicates
+
+*duplicates report pid 
+*if you do not put syear STATA is going to found a lot of duplicates because the same pid is present in more than one wave
+
 duplicates report pid syear
 isid pid syear
 *to describe the structure of the dataset
