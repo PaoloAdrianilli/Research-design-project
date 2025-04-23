@@ -16,8 +16,10 @@ bysort syear: egen mean_income = mean(i11103)
 twoway connected mean_income syear
 
 preserve
-collapse (mean) wormi_mean=wormi, by(syear)
-line wormi_mean syear, sort
+collapse (mean) v_wormi_mean=v_wormi, by(syear)
+line v_wormi_mean syear, sort
 restore
 
+
+graph bar (mean) v_wormi, over(syear)
 graph bar (mean) i11103, over(syear)
