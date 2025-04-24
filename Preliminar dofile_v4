@@ -280,6 +280,14 @@ bex4cert ///
 bex4cert2 //
 save "$Wdata/bioedu.dta", replace
 
+*pequiv
+use "$Wdata/pequiv.dta", clear
+keep syear pid cid hid ///
+i11103 /// HH labor income
+d11101 /// age of individual
+l11102 /// region
+
+save "$Wdata/pequiv.dta", replace
 *********************************************************************
 *Merge
 
@@ -289,6 +297,7 @@ SOEPtutorials: Data Structure and Naming Conventions, yt video
  we should choose PPATHL. */ 
 
 use "$Wdata/ppathl.dta", clear
+label language EN
 
 *The command to merge consists in 4 parts:
 *1 specify the kind of merge we want (e.g. 1:1)
@@ -317,7 +326,7 @@ merge m:1 pid cid using "$Wdata/bioparen.dta"
 drop _merge
 merge m:1 pid cid using "$Wdata/bioedu.dta"
 drop _merge
-merge 1:1 pid cid using "$Wdata/pequiv.dta"
+merge 1:1 pid cid syear using "$Wdata/pequiv.dta"
 drop _merge
 
 save "$Wdata/mergedataset", replace
