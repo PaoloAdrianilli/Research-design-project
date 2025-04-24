@@ -48,3 +48,57 @@ graph combine g1 g2 g3 g4 g5, cols(2) title("Means by year")
 *wocri, wormi, whosmi have a similiar pattern, woeco and wojose are basically still
 *********************************************************************************
 graph bar (mean) i11103, over(syear)
+
+
+*********************************************************************************
+*missing
+
+
+misstable summarize v_wormi
+*222,881 missings. 169,143 non missing.
+tabulate syear v_wormi, missing row
+/*% of miss changes a lot over the years. MCRA(missing completely at random) should
+be excluded. Perhaps missings are MAR*/
+egen nmiss = rowmiss(v_wormi)
+bysort id: egen total_miss = total(nmiss)
+xttab total_miss
+*
+bysort id: egen nonmiss_count = total(!mi(v_wormi))
+gen good_coverage = (nonmiss_count >= 3)
+xttab good_coverage
+br nonmiss_count good_coverage
+*
+gen gc_wormi = v_wormi
+replace gc_wormi =. if good_coverage ==0
+*N.B These commands do not take into consideration if obs are prior or post 2015!!!!
+
+
+graph bar (mean) nmiss, over(syear)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
