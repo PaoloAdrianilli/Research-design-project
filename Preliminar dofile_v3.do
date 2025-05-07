@@ -245,7 +245,7 @@ bip_01_03 /// satisfaction with work
 bip_43 /// employment status
 bip_01_06 /// satisfaction with personal income
 bip_174 /// extent lean to party
-bip_123_06 // registered unemployed
+bip_21 // registered unemployed
 save "$Wdata/bip.dta", replace
 
 /*Dataset with info on parents /// bioparen*/
