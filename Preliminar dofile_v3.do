@@ -242,7 +242,7 @@ bipbirthy /// Year of Birth
 cid ///
 bip_173_01 /// lean towards which party
 bip_01_03 /// satisfaction with work
-bip_174 /// employment status
+bip_43 /// employment status
 bip_01_06 /// satisfaction with personal income
 bip_174 /// extent lean to party
 bip_123_06 // registered unemployed
