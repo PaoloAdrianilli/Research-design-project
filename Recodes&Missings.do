@@ -1,6 +1,5 @@
-global Wdata "/Users/andreazuliani/Desktop/New_research/Wdata"
+global Wdata "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata"
 use "$Wdata/mergedataset.dta", clear
-label language EN
 *to tell at STATA that this is a panel dataset
 xtset pid syear
 drop if syear <2012
@@ -142,6 +141,159 @@ foreach var in wormi whosmi wjose wocri woeco {
     vreverse `var', gen (v_`var')
 }
 xttab v_wjose
+************************************************************************************
+*recode of political party variables
+************************************************************************************
+*which party do you lean towards
+foreach oldname in bcp12601 bdp13201 bep12001 bfp14501 bgp14501 bhp_184_01 bip_173_01 {
+	local year = ///
+		cond("`oldname'" == "bcp12601", 2012, ///
+		cond("`oldname'" == "bdp13201", 2013, ///
+		cond("`oldname'" == "bep12001", 2014, ///
+		cond("`oldname'" == "bfp14501", 2015, ///
+		cond("`oldname'" == "bgp14501", 2016, ///
+		cond("`oldname'" == "bhp_184_01", 2017, ///
+		cond("`oldname'" == "bip_173_01", 2018, .)))))))	
+	rename `oldname' partysupp_`year'
+}
+gen partysupp = .
+foreach y in 2012 2013 2014 2015 2016 2017 2018 {
+	replace partysupp = partysupp_`y' if syear == `y'
+}
+label var partysupp "which party do you lean towards"
+label define party_lbl ///
+-5  "Not included in this version of the survey" ///
+-2  "Does not apply" ///
+-1  "No Answer" ///
+1   "SPD" ///
+2   "CDU" ///
+3   "CSU" ///
+4   "FDP" ///
+5   "Alliance90/The Greens" ///
+6   "The Left" ///
+7   "DVU, Republicans, NPD" ///
+8   "Other" ///
+9   "SPD, Alliance90/The Greens" ///
+10  "SPD, CDU" ///
+11  "SPD, FDP" ///
+12  "SPD, DVU, Republicans, NDP" ///
+13  "CDU, CSU" ///
+14  "CDU, FDP" ///
+15  "CDU, Alliance90/The Greens" ///
+16  "Alliance90/The Greens, The Left.PDS" ///
+17  "SPD, The Left.PDS/WASG" ///
+21  "CDU, DVU, (Republicans, NDP)" ///
+22  "CSU, FDP" ///
+24  "FDP,The Left.PDS/Wsag" ///
+26  "Piraten Partei (Pirate Party)" //
+
+label values partysupp party_lbl
+
+*NON COMPLETA!!
+
+*satisfaction with personal income
+foreach oldname in bcp0106 bdp0106 bep0106 bfp0106 bgp0106 bhp_01_06 bip_01_06 {
+	local year = ///
+		cond("`oldname'" == "bcp0106", 2012, ///
+		cond("`oldname'" == "bdp0106", 2013, ///
+		cond("`oldname'" == "bep0106", 2014, ///
+		cond("`oldname'" == "bfp0106", 2015, ///
+		cond("`oldname'" == "bgp0106", 2016, ///
+		cond("`oldname'" == "bhp_01_06", 2017, ///
+		cond("`oldname'" == "bip_01_06", 2018, .)))))))
+	rename `oldname' satperin`year'
+}
+
+gen satperin = .
+foreach y in 2012 2013 2014 2015 2016 2017 2018 {
+	replace satperin = satperin`y' if syear == `y'
+}
+label var satperin "satisfaction with personal income"
+label define satperin 0 "Completely unsatisfied" 10 "Completely satisifed" -1 "No answer" -5 "Not included in Questionnaire Version" -2 "does not apply"
+label values satperin satperin
+drop satperin2012 satperin2014 satperin2015 satperin2016 satperin2017 satperin2018 satperin2013
+tab satperin syear
+
+*satisfaction with work
+foreach oldname in bcp0103 bdp0103 bep0103 bfp0103 bgp0103 bhp_01_03 bip_01_03 {
+	local year = ///
+		cond("`oldname'" == "bcp0103", 2012, ///
+		cond("`oldname'" == "bdp0103", 2013, ///
+		cond("`oldname'" == "bep0103", 2014, ///
+		cond("`oldname'" == "bfp0103", 2015, ///
+		cond("`oldname'" == "bgp0103", 2016, ///
+		cond("`oldname'" == "bhp_01_03", 2017, ///
+		cond("`oldname'" == "bip_01_03", 2018, .)))))))
+	rename `oldname' satwor`year'
+}
+
+gen satwor = .
+foreach y in 2012 2013 2014 2015 2016 2017 2018 {
+	replace satwor = satwor`y' if syear == `y'
+}
+label var satwor "satisfaction with work"
+label values satwor satperin
+drop satwor2012 satwor2013 satwor2014 satwor2015 satwor2016 satwor2017 satwor2018
+tab satwor syear
+
+*Employment status
+
+foreach oldname in bcp11 bdp18 bep12 bfp32 bgp31 bhp_33 bip_43 {
+	local year = ///
+		cond("`oldname'" == "bcp11", 2012, ///
+		cond("`oldname'" == "bdp18", 2013, ///
+		cond("`oldname'" == "bep12", 2014, ///
+		cond("`oldname'" == "bfp32", 2015, ///
+		cond("`oldname'" == "bgp31", 2016, ///
+		cond("`oldname'" == "bhp_33", 2017, ///
+		cond("`oldname'" == "bip_43", 2018, .)))))))
+	rename `oldname' empl_status`year'
+}
+
+gen empl_status = .
+foreach y in 2012 2013 2014 2015 2016 2017 2018 {
+	replace empl_status = empl_status`y' if syear == `y'
+}
+label var empl_status "employment status"
+label define empl_status ///
+    1  "Full-Time Employment" ///
+    2  "Regular Part-Time Employment" ///
+    3  "Vocational Training" ///
+    4  "Marginally Employed" ///
+    5  "Near Retirement, Zero Working Hours" ///
+    6  "Voluntary Military Service" ///
+    7  "Voluntary Services (FSJ / FOEJ / BFD)" ///
+    8  "Sheltered Workshop" ///
+    9  "Not Employed" ///
+    10 "Internship"
+label values empl_status empl_status
+
+drop empl_status2012 empl_status2013 empl_status2014 empl_status2015 empl_status2016 empl_status2017 empl_status2018
+tab empl_status syear
+
+********************
+*RECODING BIRTHYEAR
+********************
+
+tab birthyr
+label define cohort_lbl ///
+    1 "Born 1915–1945" ///
+    2 "Born 1946–1960" ///
+    3 "Born 1961–1975" ///
+    4 "Born 1976–1996"
+gen cohort_group = .
+replace cohort_group = 1 if inrange(birthyr, 1915, 1945)
+replace cohort_group = 2 if inrange(birthyr, 1946, 1960)
+replace cohort_group = 3 if inrange(birthyr, 1961, 1975)
+replace cohort_group = 4 if inrange(birthyr, 1976, 1996)
+label values cohort_group cohort_lbl
+tab cohort_group
+
+
+
+
+
+
 *************************************************************************************
 *************************************************************************************
 * recode of maternity and paternity leave
@@ -378,8 +530,6 @@ tab syear
 ************
 * HHINCOME *
 ************
-
-tab i11103, missing 
 
 * Count nonmissing responses per person
 gen yes_hhincome = !missing(i11103)
