@@ -200,7 +200,7 @@ pid /// Never Changing Person ID
 bhp_12 /// Maternity and Paternity leave
 bhpbirthy /// Year of Birth 
 bhp_33 /// employment status
-bhp_122_06 /// registered unemployed
+bhp_14 /// registered unemployed
 bhp_183 /// inclined towards a particular party
 bhp_184_01 /// party identification
 bhp_185 /// strenghy of party identification
