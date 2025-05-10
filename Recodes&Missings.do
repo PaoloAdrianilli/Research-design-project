@@ -1,5 +1,6 @@
-global Wdata "C:\Users\utente\OneDrive\Desktop\Research Design\Wdata"
+global Wdata "/Users/andreazuliani/Desktop/New_research/Wdata"
 use "$Wdata/mergedataset.dta", clear
+label language EN
 *to tell at STATA that this is a panel dataset
 xtset pid syear
 drop if syear <2012
@@ -141,159 +142,6 @@ foreach var in wormi whosmi wjose wocri woeco {
     vreverse `var', gen (v_`var')
 }
 xttab v_wjose
-************************************************************************************
-*recode of political party variables
-************************************************************************************
-*which party do you lean towards
-foreach oldname in bcp12601 bdp13201 bep12001 bfp14501 bgp14501 bhp_184_01 bip_173_01 {
-	local year = ///
-		cond("`oldname'" == "bcp12601", 2012, ///
-		cond("`oldname'" == "bdp13201", 2013, ///
-		cond("`oldname'" == "bep12001", 2014, ///
-		cond("`oldname'" == "bfp14501", 2015, ///
-		cond("`oldname'" == "bgp14501", 2016, ///
-		cond("`oldname'" == "bhp_184_01", 2017, ///
-		cond("`oldname'" == "bip_173_01", 2018, .)))))))	
-	rename `oldname' partysupp_`year'
-}
-gen partysupp = .
-foreach y in 2012 2013 2014 2015 2016 2017 2018 {
-	replace partysupp = partysupp_`y' if syear == `y'
-}
-label var partysupp "which party do you lean towards"
-label define party_lbl ///
--5  "Not included in this version of the survey" ///
--2  "Does not apply" ///
--1  "No Answer" ///
-1   "SPD" ///
-2   "CDU" ///
-3   "CSU" ///
-4   "FDP" ///
-5   "Alliance90/The Greens" ///
-6   "The Left" ///
-7   "DVU, Republicans, NPD" ///
-8   "Other" ///
-9   "SPD, Alliance90/The Greens" ///
-10  "SPD, CDU" ///
-11  "SPD, FDP" ///
-12  "SPD, DVU, Republicans, NDP" ///
-13  "CDU, CSU" ///
-14  "CDU, FDP" ///
-15  "CDU, Alliance90/The Greens" ///
-16  "Alliance90/The Greens, The Left.PDS" ///
-17  "SPD, The Left.PDS/WASG" ///
-21  "CDU, DVU, (Republicans, NDP)" ///
-22  "CSU, FDP" ///
-24  "FDP,The Left.PDS/Wsag" ///
-26  "Piraten Partei (Pirate Party)" //
-
-label values partysupp party_lbl
-
-*NON COMPLETA!!
-
-*satisfaction with personal income
-foreach oldname in bcp0106 bdp0106 bep0106 bfp0106 bgp0106 bhp_01_06 bip_01_06 {
-	local year = ///
-		cond("`oldname'" == "bcp0106", 2012, ///
-		cond("`oldname'" == "bdp0106", 2013, ///
-		cond("`oldname'" == "bep0106", 2014, ///
-		cond("`oldname'" == "bfp0106", 2015, ///
-		cond("`oldname'" == "bgp0106", 2016, ///
-		cond("`oldname'" == "bhp_01_06", 2017, ///
-		cond("`oldname'" == "bip_01_06", 2018, .)))))))
-	rename `oldname' satperin`year'
-}
-
-gen satperin = .
-foreach y in 2012 2013 2014 2015 2016 2017 2018 {
-	replace satperin = satperin`y' if syear == `y'
-}
-label var satperin "satisfaction with personal income"
-label define satperin 0 "Completely unsatisfied" 10 "Completely satisifed" -1 "No answer" -5 "Not included in Questionnaire Version" -2 "does not apply"
-label values satperin satperin
-drop satperin2012 satperin2014 satperin2015 satperin2016 satperin2017 satperin2018 satperin2013
-tab satperin syear
-
-*satisfaction with work
-foreach oldname in bcp0103 bdp0103 bep0103 bfp0103 bgp0103 bhp_01_03 bip_01_03 {
-	local year = ///
-		cond("`oldname'" == "bcp0103", 2012, ///
-		cond("`oldname'" == "bdp0103", 2013, ///
-		cond("`oldname'" == "bep0103", 2014, ///
-		cond("`oldname'" == "bfp0103", 2015, ///
-		cond("`oldname'" == "bgp0103", 2016, ///
-		cond("`oldname'" == "bhp_01_03", 2017, ///
-		cond("`oldname'" == "bip_01_03", 2018, .)))))))
-	rename `oldname' satwor`year'
-}
-
-gen satwor = .
-foreach y in 2012 2013 2014 2015 2016 2017 2018 {
-	replace satwor = satwor`y' if syear == `y'
-}
-label var satwor "satisfaction with work"
-label values satwor satperin
-drop satwor2012 satwor2013 satwor2014 satwor2015 satwor2016 satwor2017 satwor2018
-tab satwor syear
-
-*Employment status
-
-foreach oldname in bcp11 bdp18 bep12 bfp32 bgp31 bhp_33 bip_43 {
-	local year = ///
-		cond("`oldname'" == "bcp11", 2012, ///
-		cond("`oldname'" == "bdp18", 2013, ///
-		cond("`oldname'" == "bep12", 2014, ///
-		cond("`oldname'" == "bfp32", 2015, ///
-		cond("`oldname'" == "bgp31", 2016, ///
-		cond("`oldname'" == "bhp_33", 2017, ///
-		cond("`oldname'" == "bip_43", 2018, .)))))))
-	rename `oldname' empl_status`year'
-}
-
-gen empl_status = .
-foreach y in 2012 2013 2014 2015 2016 2017 2018 {
-	replace empl_status = empl_status`y' if syear == `y'
-}
-label var empl_status "employment status"
-label define empl_status ///
-    1  "Full-Time Employment" ///
-    2  "Regular Part-Time Employment" ///
-    3  "Vocational Training" ///
-    4  "Marginally Employed" ///
-    5  "Near Retirement, Zero Working Hours" ///
-    6  "Voluntary Military Service" ///
-    7  "Voluntary Services (FSJ / FOEJ / BFD)" ///
-    8  "Sheltered Workshop" ///
-    9  "Not Employed" ///
-    10 "Internship"
-label values empl_status empl_status
-
-drop empl_status2012 empl_status2013 empl_status2014 empl_status2015 empl_status2016 empl_status2017 empl_status2018
-tab empl_status syear
-
-********************
-*RECODING BIRTHYEAR
-********************
-
-tab birthyr
-label define cohort_lbl ///
-    1 "Born 1915–1945" ///
-    2 "Born 1946–1960" ///
-    3 "Born 1961–1975" ///
-    4 "Born 1976–1996"
-gen cohort_group = .
-replace cohort_group = 1 if inrange(birthyr, 1915, 1945)
-replace cohort_group = 2 if inrange(birthyr, 1946, 1960)
-replace cohort_group = 3 if inrange(birthyr, 1961, 1975)
-replace cohort_group = 4 if inrange(birthyr, 1976, 1996)
-label values cohort_group cohort_lbl
-tab cohort_group
-
-
-
-
-
-
 *************************************************************************************
 *************************************************************************************
 * recode of maternity and paternity leave
@@ -438,6 +286,108 @@ drop isco_08_2013 isco_08_2014 isco_08_2015 isco_08_2016 isco_08_2017 isco_08_20
 
 iscogen isei = isei(isco_08)
 
+
+**********
+*PRE-TEST*
+**********
+****FIRST WAY OF CREATING TIME DUMMY
+ssc install coefplot
+tab syear
+*gen three time dummies for pret-test (conceptuall -1. 0. 1)
+gen prepre_event = (syear == 2013)
+gen pre_event = (syear == 2014)    // Year before event
+gen event = (syear == 2015)        // Event year
+gen post_event = (syear == 2016)   // Year after event
+
+********************
+*Pre-test 2014-2016*
+********************
+
+regress v_wormi pre_event event post_event
+estimates store model1
+
+coefplot model1, keep(pre_event event post_event) ///
+    vertical ytitle("Coefficient") ///
+    yline(0) ciopts(recast(rcap)) ///
+    title("Effect of Event Timing on Outcome") ///
+    note("Controls included: [list your controls]")
+
+margins, at(pre_event=1 event=0 post_event=0) ///
+         at(pre_event=0 event=1 post_event=0) ///
+         at(pre_event=0 event=0 post_event=1)
+
+marginsplot, ///
+     xlabel(1 "2014" 2 "2015" 3 "2016") ///
+     title("Attitudes towards immigrants by Years") ///
+     ytitle("Attitudes towards immigrants") ///
+     name(margins_event, replace)
+
+********************
+*Pre-test 2013-2016*
+********************
+
+regress v_wormi prepre_event pre_event event post_event
+estimates store model1
+
+coefplot model1, keep(prepre_event pre_event event post_event) ///
+    vertical ytitle("Coefficient") ///
+    yline(0) ciopts(recast(rcap)) ///
+    title("Effect of Event Timing on Outcome") ///
+    note("Controls included: [list your controls]")
+
+margins, at(prepre_event=1 pre_event=0 event=0 post_event=0) ///
+         at(prepre_event=0 pre_event=1 event=0 post_event=0) ///
+         at(prepre_event=0 pre_event=0 event=1 post_event=0) ///
+         at(prepre_event=0 pre_event=0 event=0 post_event=1)
+
+marginsplot, ///
+     xlabel(1 "2013" 2 "2014" 3 "2015" 4 "2016") ///
+     title("Attitudes towards immigrants by Years") ///
+     ytitle("Attitudes towards immigrants") ///
+     name(margins_event, replace)
+
+tab syear
+	 
+
+****SECOND WAY OF CREATING TIME DUMMY
+xtset pid syear
+
+gen event_year = 2015
+
+gen rel_year = syear - event_year
+
+***Here I did not finish, but wanted to create a window in order to view only 2014,2015 and 2016.
+gen in_window = inrange(rel_year, -2, 2)
+
+keep if in_window == 1
+
+*it does not accept negative time dummies, so -1, so I had to use '+5ì
+gen rel_year_shifted = rel_year + 5
+
+reg v_wormi i.rel_year_shifted, cluster(pid)
+
+margins rel_year_shifted
+marginsplot, title("Attitudes Toward Migrants") ///
+             ytitle("Attitude") xtitle("Years Relative to Event") ///
+             xlabel(3 "-2" 4 "-1" 5 "0" 6 "1" 7 "2")
+
+			 
+***********
+*EDUCATION*
+***********
+
+tab pgisced11, missing 
+
+gen edu_level = .
+replace edu_level = 1 if inrange(pgisced11, 0, 2)
+replace edu_level = 2 if inrange(pgisced11, 3, 4)
+replace edu_level = 3 if inrange(pgisced11, 5, 8)
+
+label define edulabel 1 "Low" 2 "Medium" 3 "High"
+label values edu_level edulabel
+
+ta edu_level
+
 *BALANCING THE PANEL
 *********************************************************************************
 *We want to deal with a balanced panel. So I'll keep only those people that have
@@ -531,6 +481,7 @@ tab syear
 * HHINCOME *
 ************
 
+
 * Count nonmissing responses per person
 gen yes_hhincome = !missing(i11103)
 bysort pid (syear): gen hhincome_count = sum(yes_hhincome)
@@ -575,6 +526,86 @@ foreach var of local vars {
 
 summarize v_wormi v_whosmi i11103 v_woeco v_wocri
 */
+
+
+********************
+*RECODING BIRTHYEAR*
+********************
+
+tab birthyr
+label define cohort_lbl ///
+    1 "Born 1915–1945" ///
+    2 "Born 1946–1960" ///
+    3 "Born 1961–1975" ///
+    4 "Born 1976–1996"
+gen cohort_group = .
+replace cohort_group = 1 if inrange(birthyr, 1915, 1945)
+replace cohort_group = 2 if inrange(birthyr, 1946, 1960)
+replace cohort_group = 3 if inrange(birthyr, 1961, 1975)
+replace cohort_group = 4 if inrange(birthyr, 1976, 1996)
+label values cohort_group cohort_lbl
+ta cohort_group
+
+***********************
+*REGISTERED UNEMPLOYED*
+***********************
+
+foreach oldname in bcp08 bdp15 bep09 bfp15 bgp13 bhp_14 bip_21 {
+	local year = ///
+		cond("`oldname'" == "bcp08", 2012, ///
+		cond("`oldname'" == "bdp15", 2013, ///
+		cond("`oldname'" == "bep09", 2014, ///
+		cond("`oldname'" == "bfp15",  2015, ///
+        cond("`oldname'" == "bgp13",   2016, ///
+		cond("`oldname'" == "bhp_14", 2017, ///
+		cond("`oldname'" == "bip_21", 2018, .)))))))	
+	rename `oldname' regun_`year'
+}
+
+gen regun = .
+foreach y in 2012 2013 2014 2015 2016 2017 2018 {
+	replace regun = regun_`y' if syear == `y'
+}
+
+label var regun "Registered unemployed"
+tab syear regun
+drop regun_2012 regun_2013 regun_2014 regun_2015 regun_2016 regun_2017 regun_2018
+*/[1] Yes [2] No
+
+*************************
+*
+*/Amount of support
+ta bcp12602 syear
+ta bdp13202 syear
+ta bep12002 syear
+ta bfp14502 syear
+ta bgp146 syear
+ta bhp_185 syear
+ta bip_174 syear
+
+foreach oldname in bcp12602 bdp13202 bep12002 bfp14502 bgp146 bhp_185 bip_174 {
+	local year = ///
+		cond("`oldname'" == "bcp12602", 2012, ///
+		cond("`oldname'" == "bdp13202", 2013, ///
+		cond("`oldname'" == "bep12002", 2014, ///
+		cond("`oldname'" == "bfp14502",  2015, ///
+        cond("`oldname'" == "bgp146",   2016, ///
+		cond("`oldname'" == "bhp_185", 2017, ///
+		cond("`oldname'" == "bip_174", 2018, .)))))))	
+	rename `oldname' ppsupport_`year'
+}
+
+gen ppsupport = .
+foreach y in 2012 2013 2014 2015 2016 2017 2018 {
+	replace ppsupport = ppsupport_`y' if syear == `y'
+}
+
+label var ppsupport "Amount of support to political party"
+tab syear ppsupport
+drop ppsupport_2012 ppsupport_2013 ppsupport_2014 ppsupport_2015 ppsupport_2016 ppsupport_2017 ppsupport_2018
+describe ppsupport
+label define pp_support 1 "Very Strong" 2 "Fairly Strong" 3 "Moderate" 4 "Fairly Weak" 5 "Very Weak"
+label values ppsupport pp_support 
 
 
 save "$Wdata/recodata", replace 
