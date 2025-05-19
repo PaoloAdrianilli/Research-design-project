@@ -97,36 +97,3 @@ marginsplot, ///
      name(g2, replace)	 
 	 
 graph combine g1 g2, cols(2) title("PTA Test") ycommon
-
-********************
-*Pre-test 2013-2016*
-********************
-
-regress v_wormi prepre_event pre_event event_0 event_1 post_event
-
-estimates store model1
-
-coefplot model1, keep(prepre_event pre_event event_0 event_1 post_event) ///
-    vertical ytitle("Coefficient") ///
-    yline(0) ciopts(recast(rcap)) ///
-    title("Effect of Event Timing on Outcome") ///
-    note("Controls included: [list your controls]")
-
-margins, at(prepre_event=1 pre_event=0 event_0=0 event_1=0 post_event=0) ///
-         at(prepre_event=0 pre_event=1 event_0=0 event_1=0 post_event=0) ///
-         at(prepre_event=0 pre_event=0 event_0=1 event_1=0 post_event=0) ///
-		 at(prepre_event=0 pre_event=0 event_0=0 event_1=1 post_event=0) ///
-		 at(prepre_event=0 pre_event=0 event_0=0 event_1=0 post_event=1)
-
-marginsplot, ///
-     xlabel(1 "2013" 2 "2014" 3 "2015a" 4"2015b" 5"2016") ///
-     title("Attitudes towards immigrants by years") ///
-     ytitle("Attitudes towards immigrants") ///
-	 xtitle("Years") ///
-     name(g11, replace)		 
-		 
-dis 2.106403 - 2.031694 	
-di	.074709 + 2.106403
-di 2.281561-2.181112
-*.100449 instead of .124157
-
