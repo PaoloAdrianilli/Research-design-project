@@ -1,5 +1,5 @@
 *Research design
-*Update on github following this rule: significant changes: new do_vn | minor changes overwrite the existent one
+*Update on github following this rule: significant changes: new do_vn | instead for minor changes overwrite the existent one
 ********************************************************************************
 clear 
 global mydir "/Users/andreazuliani/Desktop/New_research"
@@ -14,7 +14,7 @@ dir
 **********************************
 *Merging the different SOEP waves*
 **********************************
-
+*We decided, in order to have a cleaner dataset, to keep only the variables that we think we will use in the analysis.
 *2012
 use "$Wdata/bcp.dta", clear 
 label language EN
@@ -328,7 +328,7 @@ label language EN
 *1 specify the kind of merge we want (e.g. 1:1)
 *2 what are the key variables (identifiers)
 *3 what dataset we want to add to the master
-*4 (optional) which variables we want to take from the new dataset
+*4 (optional) specify which variables we want to take from the new dataset
 
 merge 1:1 pid syear using "$Wdata/bcp.dta"
 drop _merge
