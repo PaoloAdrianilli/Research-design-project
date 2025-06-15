@@ -8,7 +8,7 @@ drop if syear <2012
 drop if syear >2018
 *To check for duplicates
 duplicates report pid 
-*if you do not put syear STATA is going to found a lot of duplicates because the same pid is present in more than one wave
+*if you do not put syear STATA will find a lot of duplicates because the same pid is present in more than one wave
 duplicates report pid syear
 *check for unique identifiers
 isid pid syear
@@ -22,6 +22,7 @@ xtdescribe
 ***************************************
 *Recode of 'Worried about immigration'*
 ***************************************
+*Through loops we will merge togheter the answers to the same question that responents have provided over the years
 
 foreach oldname in bcp12710 bdp13311 bep12309 bfp14610 bgp14810 bhp_186_11 bip_170_11 {
     local year = ///
