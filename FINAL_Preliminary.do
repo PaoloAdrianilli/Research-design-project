@@ -289,41 +289,6 @@ save "$Wdata/pequiv.dta", replace
 use "$Wdata/pgen.dta", clear
 keep imonth pid syear cid hid pgisced11
 save "$Wdata/pgen.dta", replace
-********2012*********
-
-use "$Wdata/bchgen.dta", clear
-keep hid syear cid nuts112 nuts112_ew
-save "$Wdata/bchgen.dta", replace 
-
-********2013*********
-use "$Wdata/bdhgen.dta", clear
-keep hid syear cid nuts113 nuts113_ew
-save "$Wdata/bdhgen.dta", replace 
-
-********2014*********
-use "$Wdata/behgen.dta", clear
-keep hid syear cid nuts114 nuts114_ew
-save "$Wdata/behgen.dta", replace 
-
-********2015*********
-use "$Wdata/bfhgen.dta", clear
-keep hid syear cid nuts115 nuts115_ew 
-save "$Wdata/bfhgen.dta", replace 
-
-********2016*********
-use "$Wdata/bghgen.dta", clear
-keep cid hid_2016 hid nuts116 nuts116_ew syear
-save "$Wdata/bghgen.dta", replace 
-
-********2017*********
-use "$Wdata/bhhgen.dta", clear
-keep cid hid syear nuts117 nuts117_ew
-save "$Wdata/bhhgen.dta", replace 
-
-********2018*********
-use "$Wdata/bihgen.dta", clear
-keep cid hid syear nuts118 nuts118_ew
-save "$Wdata/bihgen.dta", replace
 
 *********************************************************************
 *MERGE
@@ -364,20 +329,6 @@ drop _merge
 merge 1:1 pid cid syear using "$Wdata/pequiv.dta"
 drop _merge
 merge 1:1 pid syear using "$Wdata/pgen.dta"
-drop _merge
-merge m:1 hid syear using "$Wdata/bchgen.dta" 
-drop _merge
-merge m:1 hid syear using "$Wdata/bdhgen.dta" 
-drop _merge
-merge m:1 hid syear using "$Wdata/behgen.dta" 
-drop _merge
-merge m:1 hid syear using "$Wdata/bfhgen.dta" 
-drop _merge
-merge m:1 hid syear using "$Wdata/bghgen.dta" 
-drop _merge
-merge m:1 hid syear using "$Wdata/bhhgen.dta" 
-drop _merge
-merge m:1 hid syear using "$Wdata/bihgen.dta" 
 drop _merge
 
 save "$Wdata/mergedataset", replace
