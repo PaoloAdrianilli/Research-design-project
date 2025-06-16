@@ -163,92 +163,6 @@ foreach var in wormi whosmi wjose wocri woeco {
 }
 xttab v_wjose
 
-/*
-*the following two variables could be useful to compute by ourselves the unemployment spells.
-
-* recode of maternity and paternity leave
-foreach oldname in bcp06 bdp13121212 bep07v2 bfp13v2 bgp11v2 bhp_12 bip_19v2 {
-	local year = ///
-		cond("`oldname'" == "bcp06", 2012, ///
-		cond("`oldname'" == "bdp13121212", 2013, ///
-		cond("`oldname'" == "bep07v2", 2014, ///
-		cond("`oldname'" == "bfp13v2", 2015, ///
-		cond("`oldname'" == "bgp11v2", 2016, ///
-		cond("`oldname'" == "bhp_12", 2017, ///
-		cond("`oldname'" == "bip_19v2", 2018, .)))))))
-	rename `oldname' mapaleave_`year'
-}
-
-gen mapaleave = .
-foreach y in 2012 2013 2014 2015 2016 2017 2018 {
-	replace mapaleave = mapaleave_`y' if syear == `y'
-}
-label var mapaleave "maternity and paternity leave"
-label define mothfathlv 1 "Yes, Maternity Leave" 2 "Yes, Paternity Leave" 3 "No" -1 "No answer" -5 "Not included in Questionnaire Version"
-label values mapaleave mothfathlv
-drop mapaleave_2012 mapaleave_2013 mapaleave_2014 mapaleave_2015 mapaleave_2016 mapaleave_2017 mapaleave_2018
-tab mapaleave syear
-
-* recode of Paid work in the last seven days 
-foreach oldname in bcp05 bdp12v2 bep06v2 bfp12v2 bgp10v2 bhp_11v2 bip_18v2 {
-	local year = ///
-		cond("`oldname'" == "bcp05", 2012, ///
-		cond("`oldname'" == "bdp12v2", 2013, ///
-		cond("`oldname'" == "bep06v2", 2014, ///
-		cond("`oldname'" == "bfp12v2", 2015, ///
-		cond("`oldname'" == "bgp10v2", 2016, ///
-		cond("`oldname'" == "bhp_11v2", 2017, ///
-		cond("`oldname'" == "bip_18v2", 2018, .)))))))
-	rename `oldname' paidworksvnd_`year'
-}
-
-gen paidworksvnd = .
-foreach y in 2012 2013 2014 2015 2016 2017 2018 {
-	replace paidworksvnd = paidworksvnd_`y' if syear == `y'
-}
-
-drop paidworksvnd_2012 paidworksvnd_2013 paidworksvnd_2014 paidworksvnd_2015 paidworksvnd_2016 paidworksvnd_2017 paidworksvnd_2018
-
-tab syear paidworksvnd
-
-label define paidwork 1 "Yes" 2 "No" -1 "No answer" -5 "Not included in this version of questionnaire"
-label values paidworksvnd paidwork
-tab paidworksvnd syear
-*In pgen we found the unemployment varible, so it's no longer needed to compute it by ourselves.
-*/
-
-
-*******************************************
-*Recode of 'Both parents are from Germany'*
-*******************************************
-
-foreach oldname in bcp142 bdp146 bep132 bfp161 bgpm_p_60 bhp_191 bip_60_q104 {
-	local year = ///
-		cond("`oldname'" == "bcp142", 2012, ///
-		cond("`oldname'" == "bdp146", 2013, ///
-		cond("`oldname'" == "bep132", 2014, ///
-		cond("`oldname'" == "bfp161", 2015, ///
-		cond("`oldname'" == "bgpm_p_60", 2016, ///
-		cond("`oldname'" == "bhp_191", 2017, ///
-		cond("`oldname'" == "bip_60_q104", 2018, .)))))))
-	rename `oldname' bothprntsgerman_`year'
-}
-
-gen bothprntsgerman = .
-foreach y in 2012 2013 2014 2015 2016 2017 2018 {
-	replace bothprntsgerman = bothprntsgerman_`y' if syear == `y'
-}
-
-drop bothprntsgerman_2012 bothprntsgerman_2013 bothprntsgerman_2014 bothprntsgerman_2015 bothprntsgerman_2016 bothprntsgerman_2017 bothprntsgerman_2018
-
-tab syear bothprntsgerman
-
-label define parentsgerman 1 "Yes" 2 "No" -1 "No answer" -2 "Does not apply" -5 "Not included in this version of questionnaire"
-label values bothprntsgerman parentsgerman
-tab bothprntsgerman syear
-
-replace bothprntsgerman = . if inlist(bothprntsgerman, -1,-2,-5)
-
 **************************************************************
 *Recode of 'Highest school leaving certificate ever obtained'*
 **************************************************************
@@ -298,35 +212,6 @@ tab syear time_dummy, m
 
 ssc install asdoc
 asdoc tab syear time_dummy, replace 
-
-
-/*
-******************
-*Recode of 'ISCO'*
-******************
-
-foreach oldname in bdp38_isco08 bep28_isco08 bfp52_isco08 bgp48_isco08 bhp_52_isco08 bip_61_isco08 {
-	local year = ///
-		cond("`oldname'" == "bdp38_isco08", 2013, ///
-		cond("`oldname'" == "bep28_isco08", 2014, ///
-		cond("`oldname'" == "bfp52_isco08", 2015, ///
-		cond("`oldname'" == "bgp48_isco08", 2016, ///
-		cond("`oldname'" == "bhp_52_isco08", 2017, ///
-		cond("`oldname'" == "bip_61_isco08", 2018, .))))))
-	rename `oldname' isco_08_`year'
-}
-
-gen isco_08 = .
-foreach y in 2013 2014 2015 2016 2017 2018 {
-	replace isco_08 = isco_08_`y' if syear == `y'
-}
-tab isco_08
-drop isco_08_2013 isco_08_2014 isco_08_2015 isco_08_2016 isco_08_2017 isco_08_2018
-
-iscogen isei = isei(isco_08)
-*both Isco and Isei contain too many missings, it's better to use employment status
-*/
-
 
 *******************************
 *Recode of 'Employment status'*
@@ -405,10 +290,6 @@ drop regun_2012 regun_2013 regun_2014 regun_2015 regun_2016 regun_2017 regun_201
 tab regun
 replace regun = . if regun == -1
 replace regun = 0 if regun == 2
-
-
-
-
 
 ***************************
 *PTA with UNBALANCED PANEL*
