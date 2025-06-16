@@ -11,6 +11,17 @@ global dofile "/Users/andreazuliani/Desktop/New_research/Dofile"
 
 *to check files into the directory
 dir
+
+*********
+*DATASET*
+*********
+
+/*
+The dataset which this research employs is derived from the German Socio-Economic Panel (SOEP), in particular SOEP CORE, 
+which collects information of a variety of topics, such as demographic and family structure, migration and integration- 
+related topics, political attitudes and social participation.
+*/
+
 **********************************
 *Merging the different SOEP waves*
 **********************************
