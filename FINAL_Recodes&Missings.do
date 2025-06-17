@@ -163,18 +163,13 @@ foreach var in wormi whosmi wjose wocri woeco {
 }
 xttab v_wjose
 
-**************************************************************
-*Recode of 'Highest school leaving certificate ever obtained'*
-**************************************************************
-
-tab syear bex4cert
-label define educationlevel -2 "Does not apply" -1 "No Answer" 1 "Secondary School Degree" 2 "Intermediate School Degree" 3 "Technical School Degree" 4 "Upper Secondary Degree" 5 "Other Degree" 6 "No school degree (yet), dropout"
-label values bex4cert educationlevel
-label define educationlevel -2 "Does not apply" -1 "No Answer" 1 "Secondary School Degree" 2 "Intermediate School Degree" 3 "Technical School Degree" 4 "Upper Secondary Degree" 5 "Other Degree" 6 "No school degree (yet), dropout", modify
-tab bex4cert syear if inrange(syear, 2012, 2018)
 
 
-* recode of Year Of Birth
+
+************************
+*Recode of 'Birth Year'*
+************************
+
 foreach oldname in bcp12803 bdp13403 bep12603 bfpbirthy bgpbirthy bhpbirthy bipbirthy {
 	local year = ///
 		cond("`oldname'" == "bcp12803", 2012, ///
